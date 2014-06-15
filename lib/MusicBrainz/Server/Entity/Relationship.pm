@@ -167,7 +167,7 @@ sub extra_verbose_phrase_attributes
 
 sub _join_attrs
 {
-    my @attrs = map { $_ } @{$_[0]};
+    my @attrs = @{ $_[0] };
     if (scalar(@attrs) > 1) {
         my $a = pop(@attrs);
         my $b = join(l(", "), @attrs);

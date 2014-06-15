@@ -3,6 +3,7 @@ use Moose::Role;
 
 use MusicBrainz::Server::Entity::Types;
 use List::UtilsBy qw( sort_by );
+sub group_by (&@);
 
 has 'relationships' => (
     is => 'rw',
@@ -25,13 +26,17 @@ sub grouped_relationships
 
     my %groups;
     my @relationships = sort { $a <=> $b } $self->all_relationships;
+    @relationships = grep { $filter{ $_->target_type } } @relationships
+        if $filter_present;
 
     for my $relationship (@relationships) {
-        next if ($filter_present && !$filter{ $relationship->target_type });
-        $groups{ $relationship->target_type } ||= {};
-        $groups{ $relationship->target_type }{ $relationship->phrase } ||= [];
-        push @{ $groups{ $relationship->target_type }{ $relationship->phrase} },
+        push @{ $groups{ $relationship->target_type }{ $relationship->phrase } },
             $relationship;
+    }
+
+    for my $group (map { values %$_ } values %groups) {
+        @$group = map { [ group_by { $_->link->formatted_date } @$_ ] }
+                  group_by { $_->target->id } @$group;
     }
 
     return \%groups;
@@ -67,11 +72,23 @@ sub appearances {
     my %groups;
     for my $rel (@rels) {
         my $phrase = $rel->link->type->name;
-        $groups{ $phrase } ||= [];
         push @{ $groups{$phrase} }, $rel;
     }
 
     return \%groups;
+}
+
+sub group_by (&@) {
+    my $keygen = shift;
+
+    my %map; my @ret; my $i = 0;
+    foreach my $item (@_) {
+        my $key = $keygen->( local $_ = $item );
+        my $idx = $map{$key} //= $i++;
+        push @{ $ret[$idx] }, $item;
+    }
+
+    return @ret;
 }
 
 1;

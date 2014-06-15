@@ -119,21 +119,29 @@ END; -%]
 END -%]
 
 [%~ MACRO comma_list(items) BLOCK -%]
-    [% IF items.size == 1 %]
-        [% items.0 %]
-    [% ELSE %]
+    [%- IF items.size == 1 -%]
+        [%- items.0 -%]
+    [%- ELSE -%]
         [%- output = l('{almost_last_list_item} and {last_list_item}', {last_list_item => items.last, almost_last_list_item => items.reverse.slice(1).first}) -%]
         [%- FOREACH item IN items.reverse.slice(2) -%]
             [%- output = l('{list_item}, {rest}', {list_item => item, rest => output}) -%]
         [%- END -%]
         [%- output -%]
-    [% END %]
+    [%- END -%]
 [%- END -%]
 
 [%~ MACRO comma_only_list(items) BLOCK -%]
     [%- output = l('{last_list_item}', {last_list_item => items.last}) -%]
     [%- FOREACH item IN items.reverse.slice(1) -%]
         [%- output = l('{commas_only_list_item}, {rest}', {commas_only_list_item => item, rest => output}) -%]
+    [%- END -%]
+    [%- output -%]
+[%- END -%]
+
+[%~ MACRO semicolon_only_list(items) BLOCK -%]
+    [%- output = l('{last_list_item}', {last_list_item => items.last}) -%]
+    [%- FOREACH item IN items.reverse.slice(1) -%]
+        [%- output = l('{semicolon_only_list_item}; {rest}', {semicolon_only_list_item => item, rest => output}) -%]
     [%- END -%]
     [%- output -%]
 [%- END -%]
@@ -881,16 +889,33 @@ END -%]
   [%- END -%]
 [%- END -%]
 
-[%~ MACRO relationship_target_links(rel) BLOCK -%]
-  <span[% IF rel.edits_pending %] class="mp"[% END %]>
-  [% IF rel.target.artist_credit AND
-        rel.target.artist_credit.name == hide_ac %]
-      [% link_entity(rel.target) %]
+[%~ MACRO relationship_target_links(rel) BLOCK;
+    edits_pending = 0;
+    ll = [];
+    FOREACH by_date IN rel;
+        f_date = by_date.0.link.formatted_date;
+        ll_inner = [];
+        FOREACH by_extra IN by_date;
+            ll_inner.push(by_extra.extra_phrase_attributes);
+            edits_pending = edits_pending + by_extra.edits_pending;
+        END;
+        extras = comma_list(ll_inner);
+        IF f_date != '' AND extras != '';
+            ll.push(l('{date_range}: {extra_attributes}', { date_range => f_date, extra_attributes => extras}));
+        ELSE;
+            ll.push(f_date _ extras);
+        END;
+    END;
+    extras = semicolon_only_list(ll);
+    target = by_extra.target -%]
+  <span[% IF edits_pending %] class="mp"[% END %]>
+  [% IF target.artist_credit AND
+        target.artist_credit.name == hide_ac %]
+      [% link_entity(target) %]
   [% ELSE %]
-      [% descriptive_link(rel.target) %]
+      [% descriptive_link(target) %]
   [% END %]
-  [% '(' _ rel.extra_phrase_attributes _ ')' IF rel.extra_phrase_attributes %]
-  [% '(' _ rel.link.formatted_date _ ')' IF rel.link.formatted_date %]
+  [% bracketed(extras) IF extras != '' ~%]
   </span>
 [%- END -%]
 
