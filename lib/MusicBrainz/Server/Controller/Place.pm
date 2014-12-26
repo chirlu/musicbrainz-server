@@ -121,7 +121,23 @@ Shows a map for a place.
 
 =cut
 
-sub map : Chained('load') { }
+sub map : Chained('load') {
+    my ($self, $c) = @_;
+    my $place = $c->stash->{place};
+
+    if (defined $place->coordinates) {
+        my @neighbours =
+            map { {
+                    label => $_->name,
+                    latitude => $_->coordinates->latitude,
+                    longitude => $_->coordinates->longitude,
+                    ended => $_->ended,
+                } }
+            $c->model('Place')->find_around_point($place->coordinates, 100000, 250);
+        $c->stash->{neighbours} =
+            JSON::Any->new(utf8 => 1)->encode(\@neighbours);
+    }
+}
 
 after [qw( show collections details tags aliases events performances map )] => sub {
     my ($self, $c) = @_;

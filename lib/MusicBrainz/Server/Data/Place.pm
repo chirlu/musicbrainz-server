@@ -194,6 +194,27 @@ sub _order_by {
     return $order_by
 }
 
+sub find_around_point {
+    my ($self, $coordinates, $max_distance, $limit) = @_;
+    my $query = "SELECT " . $self->_columns . "
+                 FROM " . $self->_table . "
+                 WHERE coordinates IS NOT NULL
+                   AND ll_to_earth(coordinates[0], coordinates[1])
+                       <@ earth_box(ll_to_earth(?, ?), ?)
+                 ORDER BY
+                   earth_distance(
+                     ll_to_earth(coordinates[0], coordinates[1]),
+                     ll_to_earth(?, ?)
+                   ),
+                   id
+                 LIMIT ?";
+    return $self->query_to_list(
+        $query, [ $coordinates->latitude, $coordinates->longitude,
+        $max_distance, $coordinates->latitude, $coordinates->longitude,
+        $limit ]
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 1;

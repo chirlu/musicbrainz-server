@@ -12,6 +12,8 @@
         var zoom = 2;
     [%~ END ~%]
 
+    var others = [% others.defined ? others : '[]' %];
+
     [%~ IF editing ~%]
         var title = '';
         var draggable = true;
@@ -28,7 +30,18 @@
     }).addTo(map);
 
     L.Icon.Default.imagePath = '/static/lib/leaflet/images';
-    marker = L.marker([lat, lon], { title: title, draggable: draggable });
+
+    if (others.length > 0) {
+        var clusterLayer = L.markerClusterGroup({ maxClusterRadius: 35 });
+        for (var i = 0; i < others.length; i++) {
+            var p = others[i];
+            var m = L.marker([p.latitude, p.longitude], { title: p.label });
+            clusterLayer.addLayer(m);
+        }
+        map.addLayer(clusterLayer);
+    }
+
+    marker = L.marker([lat, lon], { title: title, draggable: draggable, zIndexOffset: 100 });
     marker.addTo(map);
 
 //]]></script>
