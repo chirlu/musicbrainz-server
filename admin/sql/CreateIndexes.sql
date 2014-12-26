@@ -361,6 +361,7 @@ CREATE UNIQUE INDEX medium_cdtoc_idx_uniq ON medium_cdtoc (medium, cdtoc);
 CREATE UNIQUE INDEX place_idx_gid ON place (gid);
 CREATE INDEX place_idx_name ON place (name);
 CREATE INDEX place_idx_area ON place (area);
+CREATE INDEX place_idx_geo ON place USING gist (ll_to_earth(coordinates[0], coordinates[1])) WHERE coordinates IS NOT NULL;
 
 CREATE INDEX place_alias_idx_place ON place_alias (place);
 CREATE UNIQUE INDEX place_alias_idx_primary ON place_alias (place, locale) WHERE primary_for_locale = TRUE AND locale IS NOT NULL;
