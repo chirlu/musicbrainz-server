@@ -119,3 +119,11 @@ license:    MIT (X11)
 version:    0.5.3
 author:     Michael Wiencek
 url:        https://github.com/mwiencek/knockout-arrayTransforms
+
+-- leaflet.markercluster --
+
+library:    Leaflet.markercluster
+license:    MIT
+version:    commit c0b5778
+author:     Dave Leaver
+url:        https://github.com/Leaflet/Leaflet.markercluster

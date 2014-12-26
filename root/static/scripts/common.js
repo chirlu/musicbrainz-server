@@ -3,6 +3,7 @@ import global from './global';
 global.aclass = require("aclass");
 global.ko = require("knockout");
 global.L = require("../lib/leaflet/leaflet-src");
+require("../lib/leaflet.markercluster/leaflet.markercluster-src.js");
 global._ = require("lodash");
 global.$ = global.jQuery = require("jquery");
 
