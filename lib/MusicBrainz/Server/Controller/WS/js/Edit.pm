@@ -621,10 +621,18 @@ sub submit_edits {
         }
     });
 
+    my @def_edits = grep { defined $_ } @edits;
+
+    my $info = $c->session->{edits};
+    my ($edit_ids, $open_edits) = $info ? @$info{'edit_ids', 'open_edits'} : ([], 0);
+    push @$edit_ids, map { $_->id } @def_edits;
+    $open_edits += scalar grep { $_->is_open } @def_edits;
+    $c->session->{edits} = { edit_ids => $edit_ids, open_edits => $open_edits };
+
     my $created_entity_ids = {};
     my $created_entities = {};
 
-    for my $edit (grep { defined $_ } @edits) {
+    for my $edit (@def_edits) {
         if ($edit->isa('MusicBrainz::Server::Edit::Generic::Create') &&
             !$edit->isa('MusicBrainz::Server::Edit::Relationship::Create')) {
 

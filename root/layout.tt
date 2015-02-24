@@ -85,6 +85,11 @@
             </div>
         [% END %]
 
+        [% IF c.sessionid.defined AND c.session.edits ~%]
+            <div class="banner flash"><p>thank you edits [% c.session.edits.edit_ids.join(', ') %], open [% c.session.edits.open_edits %]</p></div>
+        [%~ c.session.delete('edits') ~%]
+        [%~ END -%]
+
         <div id="page"[% IF full_width %] class="fullwidth"[% END %][% IF homepage %] class="homepage"[% END %]>
             [%- content -%]
             <div style="clear: both"></div>
