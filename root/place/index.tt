@@ -25,4 +25,9 @@
     [%- show_wikipedia_extract() -%]
 
     [% INCLUDE "components/relationships.tt" source=place %]
+
+    [% IF neighbours.size %]
+      <h2>Other places in the immediate vicinity</h2>
+      [%- INCLUDE 'components/places-list.tt' places=neighbours checkboxes='' ~%]
+    [% END %]
 [% END %]
