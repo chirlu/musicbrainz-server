@@ -87,6 +87,15 @@ Shows a place's main landing page.
 sub show : PathPart('') Chained('load') {
     my ($self, $c) = @_;
 
+    my $place = $c->stash->{place};
+    my @neighbours;
+    if (defined $place->coordinates) {
+        @neighbours = grep { $_->id != $place->id }
+            $c->model('Place')->find_around_point($place->coordinates, 80, 250);
+        $c->model('PlaceType')->load(@neighbours);
+    }
+    $c->stash->{neighbours} = \@neighbours;
+
     $c->stash(template => 'place/index.tt');
 }
 
