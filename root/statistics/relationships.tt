@@ -3,8 +3,8 @@
 [%- MACRO print_type(type, indent, base, parent) BLOCK -%]
 <tr>
     <th style="padding-left: [%- indent - 1 -%]em">[%- html_escape(type.l_long_link_phrase) -%]</th>
-    <td>[% add_commas(stats.statistic(base _ '.' _ html_escape(type.name))) %]</td>
-    <td>[% add_commas(stats.statistic(base _ '.' _ html_escape(type.name) _ '.inclusive')) %]</td>
+    <td>[% foobar(base _ '.' _ html_escape(type.name)) %]</td>
+    <td>[% foobar(base _ '.' _ html_escape(type.name) _ '.inclusive') %]</td>
     <td>[% l('{n}%', { n => round1(stats.ratio(base _ '.' _ html_escape(type.name) _ '.inclusive', parent)) }) %]</td>
 </tr>
 [% FOREACH child IN type.children.sort('l_long_link_phrase') -%]
@@ -33,7 +33,7 @@
 <tr>
     <th>[% l('Relationships:') %]</th>
     <td></td>
-    <td>[% add_commas(stats.statistic('count.ar.links')) %]</td>
+    <td>[% foobar('count.ar.links') %]</td>
     <td></td>
 </tr>
 [% FOREACH type IN types -%]
@@ -46,7 +46,7 @@
 </tr>
 <tr>
     <th colspan="2">[% l('{type0}-{type1} relationships:', { type0 => type0, type1 => type1 } ) %]</th>
-    <td>[% add_commas(stats.statistic('count.ar.links.' _ type.key)) %]</td>
+    <td>[% foobar('count.ar.links.' _ type.key) %]</td>
     <td>[% l('{n}%', { n => round1(stats.ratio('count.ar.links.' _ type.key, 'count.ar.links')) }) %]</td>
 </tr>
 [%- FOREACH child1 IN type.value.tree -%]

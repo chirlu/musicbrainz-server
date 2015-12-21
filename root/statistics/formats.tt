@@ -33,9 +33,9 @@
 <tr>
 <td></td>
 <td>[% l('Total') %]</td>
-<td class="t">[% add_commas(stats.statistic('count.release')) %]</td>
+<td class="t">[% foobar('count.release') %]</td>
 <td class="t">[% l('100%') %]</td>
-<td class="t">[% add_commas(stats.statistic('count.medium')) %]</td>
+<td class="t">[% foobar('count.medium') %]</td>
 <td class="t">[% l('100%') %]</td>
 </tr>
 [%- FOREACH format IN format_stats -%]

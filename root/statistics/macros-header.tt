@@ -1,5 +1,5 @@
 [%- USE Translation('statistics') -%]
-
+[% MACRO foobar(id) BLOCK; simple_link("/statistics/timeline/" _ id, add_commas(stats.statistic(id))); END -%]
 [% BLOCK layout_head %]
   [%- css_manifest('statistics.css') -%]
 [% END %]
