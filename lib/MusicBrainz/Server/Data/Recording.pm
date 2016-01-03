@@ -422,8 +422,9 @@ sub find_recent_by_artists
 {
     my ($self, $artist_ids) = @_;
 
-    my $search_url = sprintf("http://%s/ws/2/recording/?query=title:\"\"",
+    my $search_url = sprintf("http://%s/solr/recording/select?wt=mbjson&q=title:\"\"",
                               DBDefs->LUCENE_SERVER);
+    # FIXME: new search server doesn't provide last-updated information
 
     my $ua = LWP::UserAgent->new;
 

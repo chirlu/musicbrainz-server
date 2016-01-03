@@ -733,13 +733,13 @@ sub external_search
 
     $query = uri_escape_utf8($query);
     $type =~ s/release_group/release-group/;
-    my $search_url = sprintf("http://%s/ws/2/%s/?query=%s&offset=%s&max=%s&fmt=jsonnew&dismax=%s&web=1",
+    my $search_url = sprintf("http://%s/solr/%s/%s?q=%s&start=%s&rows=%s&wt=mbjson&web=1",
                                  DBDefs->LUCENE_SERVER,
                                  $type,
+                                 $adv ? 'select' : 'edismax',
                                  $query,
                                  $offset,
                                  $limit,
-                                 $adv ? 'false' : 'true',
                                  );
 
     # Dispatch the search request.
@@ -1010,7 +1010,8 @@ sub xml_search
     }
 
     $query = uri_escape_utf8($query);
-    my $search_url = sprintf("http://%s/ws/%d/%s/?query=%s&offset=%s&max=%s&fmt=xml",
+$version == 2 or die 'Unsupported WS version?';
+    my $search_url = sprintf("http://%s/solr/%s/select?q=%s&start=%s&rows=%s&fmt=mbxml",
                                  DBDefs->LUCENE_SERVER,
                                  $version,
                                  $type,
