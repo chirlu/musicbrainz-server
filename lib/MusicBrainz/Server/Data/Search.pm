@@ -742,6 +742,7 @@ sub external_search
                                  $offset,
                                  $limit,
                                  );
+print STDERR "external_search: $search_url\n";
 
     # Dispatch the search request.
     my $response = get_chunked_with_retry($self->c->lwp, $search_url);
@@ -1019,6 +1020,7 @@ $version == 2 or die 'Unsupported WS version?';
                                  $query,
                                  $offset,
                                  $limit,);
+print STDERR "xml_search: $search_url\n";
 
     # Dispatch the search request.
     my $response = $self->c->lwp->get($search_url);

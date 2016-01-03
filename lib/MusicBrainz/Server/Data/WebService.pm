@@ -207,6 +207,7 @@ sub xml_search
     my $url_ext = "/solr/$resource/" . ($dismax ? "edismax" : "select") .
               "?rows=$limit&type=$resource&wt=$format&start=$offset" .
               "&q=" . uri_escape_utf8($query);
+print STDERR "xml_search: ...$url_ext\n";
 
     if (DBDefs->LUCENE_X_ACCEL_REDIRECT) {
         return { redirect_url => '/internal/search/' . DBDefs->LUCENE_SERVER . $url_ext }
