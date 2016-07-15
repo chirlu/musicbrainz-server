@@ -8,8 +8,13 @@ with 'MusicBrainz::Server::Entity::URL::Sidebar';
 sub sidebar_name {
     my $self = shift;
 
-    return "Discogs";
+    my $path = substr $self->decoded_local_part, 1; # without the leading slash
+    my ($type, $id) = $path =~ m{^(artist|label|relase|master)/([0-9]+)$}
+        or return $path;
+
+    return (substr $type, 0, 1) . $id;
 }
+
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -18,6 +23,7 @@ no Moose;
 =head1 COPYRIGHT
 
 Copyright (C) 2010 MetaBrainz Foundation
+Copyright (C) 2016 Ulrich Klauer
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
