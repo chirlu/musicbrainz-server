@@ -5,6 +5,10 @@ use Moose;
 extends 'MusicBrainz::Server::Entity::URL';
 with 'MusicBrainz::Server::Entity::URL::Sidebar';
 
+sub pretty_name {
+    return 'Discogs: ' . shift->sidebar_name;
+}
+
 sub sidebar_name {
     my $self = shift;
 
