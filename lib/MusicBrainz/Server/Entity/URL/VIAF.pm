@@ -5,20 +5,19 @@ use Moose;
 extends 'MusicBrainz::Server::Entity::URL';
 with 'MusicBrainz::Server::Entity::URL::Sidebar';
 
-sub pretty_name
-{
-    my $self = shift;
-    return 'VIAF' if $self->uses_legacy_encoding;
-
-    my $name = $self->decoded_local_part;
-    $name =~ s{^/viaf/}{};
-
-    $name = "VIAF: $name";
-
-    return $name;
+sub pretty_name {
+    return 'VIAF: ' . shift->sidebar_name;
 }
 
-sub sidebar_name { shift->pretty_name }
+sub sidebar_name {
+    my $self = shift;
+
+    my $path = $self->decoded_local_part;
+    my ($id) = $path =~ m{^/viaf/([0-9]+)$}
+        or return 'VIAF';
+
+    return $id;
+}
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -27,6 +26,7 @@ no Moose;
 =head1 COPYRIGHT
 
 Copyright (C) 2013 MetaBrainz Foundation
+Copyright (C) 2016 Ulrich Klauer
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
