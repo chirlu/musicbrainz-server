@@ -92,10 +92,10 @@
 <div class="search-container">
     [% USE sidebar = FormRenderer(sidebar_search, id_prefix => 'header') ~%]
     <form action="[% c.uri_for('/search') %]" method="get">
-        [% sidebar.text('query', { placeholder => l('Search') }) %]
-        [% sidebar.select('type') %]
+        [% sidebar.text('query', { placeholder => l('Search'), tabindex => '100' }) %]
+        [% sidebar.select('type', { tabindex => '100' }) %]
         [% sidebar.hidden('method', { value => 'indexed' }) %]
-        <button type="submit">
+        <button type="submit" tabindex="100">
             <img src="[% c.model('FileCache').path_to('/images/icons/search.svg') %]" />
         </button>
     </form>

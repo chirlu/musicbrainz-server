@@ -32,7 +32,7 @@ if (process.env.GOOGLE_CUSTOM_SEARCH) {
 }
 
 const searchOptions = (
-  <select id="headerid-type" name="type">
+  <select id="headerid-type" name="type" tabindex="100">
     {Object.keys(TYPE_OPTIONS).map((key, index) =>
       <option key={index} value={key}>{TYPE_OPTIONS[key]}</option>
     )}
@@ -41,10 +41,10 @@ const searchOptions = (
 
 const Search = () => (
   <form action="/search" method="get">
-    <input type="text" id="headerid-query" name="query" placeholder={l('Search')} required={true} />
+    <input type="text" id="headerid-query" name="query" placeholder={l('Search')} required={true} tabindex="100" />
     {' '}{searchOptions}{' '}
     <input type="hidden" id="headerid-method" name="method" value="indexed" />
-    <button type="submit">
+    <button type="submit" tabindex="100">
       <img src={manifest.pathTo('/images/icons/search.svg')} />
     </button>
   </form>
