@@ -173,10 +173,10 @@ const Layout = (props) => {
             <p dangerouslySetInnerHTML={{__html: $c.flash.message}}></p>
           </div>}
 
-        <div id="page" className={(props.fullwidth ? 'fullwidth ' : '') + (props.homepage ? 'homepage' : '')}>
+        <main id="page" className={(props.fullwidth ? 'fullwidth ' : '') + (props.homepage ? 'homepage' : '')}>
           {props.children}
           <div style={{clear: 'both'}}></div>
-        </div>
+        </main>
 
         {($c.session.merger && !$c.stash.hide_merge_helper) && <MergeHelper />}
 

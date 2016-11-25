@@ -10,15 +10,15 @@ const TopMenu = require('./TopMenu');
 const BottomMenu = require('./BottomMenu');
 
 const Header = (props) => (
-  <div className="header">
+  <header className="header">
     <a href="/" className="logo">
       <img src={manifest.pathTo('/images/layout/header-logo.svg')} className="logo" alt="MusicBrainz" />
     </a>
-    <div className="right">
+    <nav className="right">
       <TopMenu {...props} />
       <BottomMenu {...props} />
-    </div>
-  </div>
+    </nav>
+  </header>
 );
 
 module.exports = Header;

@@ -13,7 +13,7 @@ const Footer = (props) => {
   let server_details = stash.server_details;
 
   return (
-    <div id="footer">
+    <footer id="footer">
       <p className="left">
         <a href="http://metabrainz.org/donate" className="internal">{l('Donate')}</a>
         {' | '}
@@ -62,7 +62,7 @@ const Footer = (props) => {
             supp: 'https://metabrainz.org/supporters',
             caa: '//coverartarchive.org/'})}
       </p>
-    </div>
+    </footer>
   );
 };
 

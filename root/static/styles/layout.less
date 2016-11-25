@@ -15,6 +15,11 @@ body {
     }
 }
 
+header, main, footer, nav {
+    /* IE before 9 doesn't know these; current IE still doesn't know <main> */
+    display: block;
+}
+
 a {
     color:@link-default;
     text-decoration: none;
