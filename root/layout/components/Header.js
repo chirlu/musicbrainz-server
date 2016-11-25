@@ -11,8 +11,8 @@ const BottomMenu = require('./BottomMenu');
 
 const Header = (props) => (
   <div className="header">
-    <a href="/" className="logo" title="MusicBrainz">
-      <img src={manifest.pathTo('/images/layout/header-logo.svg')} className="logo" />
+    <a href="/" className="logo">
+      <img src={manifest.pathTo('/images/layout/header-logo.svg')} className="logo" alt="MusicBrainz" />
     </a>
     <div className="right">
       <TopMenu {...props} />
