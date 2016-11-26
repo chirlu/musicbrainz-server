@@ -31,3 +31,8 @@ require("./common/components/TagEditor");
 if (typeof phantom === 'undefined') {
     require("./common/errors");
 }
+
+$(function () {
+    $("#skiplinks").focusin(function () { $(this).removeClass("hidden"); })
+                   .focusout(function () { $(this).addClass("hidden"); });
+});

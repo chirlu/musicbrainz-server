@@ -320,9 +320,20 @@ img.gravatar {
     }
 }
 
+#skiplinks {
+    padding: 3px 16px;
+    margin: 1em 0 -1em; /* retain the margin for #page */
+    &.hidden {
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+}
+
 /*
 ** Main content
 */
+
 #page,
 #current-editing {
     margin-top: 1em;

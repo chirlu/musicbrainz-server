@@ -95,7 +95,15 @@
             </div>
         [% END %]
 
-        <main id="page"[% IF full_width %] class="fullwidth"[% END %][% IF homepage %] class="homepage"[% END %]>
+        <div id="skiplinks" class="hidden">
+            [%~ l('Skip to {main|main content}, {footer|footer}', { main => { href => '#page', tabindex => '200' }, footer => { href => '#footer', tabindex => '200' } }) ~%]
+[%# TODO (and same for JS version):
+    1. make a function for banners that also stores whether any banners are present
+    2. add alt text for the dismiss buttons
+    3. mention banners only if present ~%]
+        </div>
+
+        <main id="page"[% IF full_width %] class="fullwidth"[% END %][% IF homepage %] class="homepage"[% END %] tabindex="-1">
             [%- content -%]
             <div style="clear: both"></div>
         </main>
@@ -103,7 +111,7 @@
         [%- INCLUDE 'layout/merge-helper.tt'
            IF c.try_get_session('merger') AND !hide_merge_helper -%]
 
-        <footer id="footer">
+        <footer id="footer" tabindex="-1">
             <p class="left">
                 <a href="https://metabrainz.org/donate" class="internal">[% l('Donate') %]</a> |
                 <a href="//wiki.musicbrainz.org/" class="internal">[% l('Wiki') %]</a> |
